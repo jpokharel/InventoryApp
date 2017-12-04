@@ -27,12 +27,12 @@ import com.example.android.inventoryapp.data.InventoryContract;
 public class EditInventory extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int EDIT_INVENTORY_LOADER = 0;
-    private static final String PRICE = "$ ";
     private EditText mNameEditText;
     private EditText mQuantityEditText;
     private EditText mPriceEditText;
     private Button mIncrementButton;
     private Button mDecrementButton;
+    private Button mSaveButton;
     private boolean mDataChanged = false; //To track if any change was made.
     private Uri currentUri; //To store the item's URI.
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
@@ -65,6 +65,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
         mIncrementButton = (Button) findViewById(R.id.increase_button);
         mDecrementButton = (Button) findViewById(R.id.decrease_button);
+        mSaveButton = (Button) findViewById(R.id.save_inventory_button);
 
         //Set up touch listeners to inform user about any unsaved changes.
         mNameEditText.setOnTouchListener(mTouchListener);
@@ -95,6 +96,16 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                     Toast.makeText(getApplicationContext(), "No more items left!", Toast.LENGTH_SHORT).show();
                     else
                         mQuantityEditText.setText(String.valueOf(qty - 1));
+            }
+        });
+
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mDataChanged) {
+                    saveInventory();
+                    mDataChanged = false;
+                }
             }
         });
     }
@@ -227,7 +238,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
-            mPriceEditText.setText(PRICE + Integer.toString(price));
+            mPriceEditText.setText(Integer.toString(price));
         }
     }
 
