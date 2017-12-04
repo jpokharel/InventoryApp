@@ -35,8 +35,8 @@ public class InventoryCursorAdapter extends CursorAdapter {
         int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
 
         nameText.setText(name);
-        priceText.setText(price);
-        quantityText.setText(quantity);
+        priceText.setText(String.valueOf(price));
+        quantityText.setText(String.valueOf(quantity));
 
     }
 }

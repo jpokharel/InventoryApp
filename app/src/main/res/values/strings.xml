@@ -4,4 +4,16 @@
     <string name="quantity">Quantity</string>
     <string name="price">Price</string>
     <string name="picture">Capture Picture</string>
+    <string name="changes_not_saved">Changes have NOT been Saved!</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="deletion_successful">Successfully Deleted</string>
+    <string name="deletion_failed">Deletion failed</string>
+    <string name="error_inserting_data">Error inserting data</string>
+    <string name="data_inserted">Inserted inventory data</string>
+    <string name="error_updating_data">Error updating data</string>
+    <string name="data_updated">Successfully Updated data</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_this_item">Delete this item?</string>
 </resources>
