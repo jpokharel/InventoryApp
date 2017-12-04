@@ -20,4 +20,8 @@
     <string name="plus">+</string>
     <string name="minus">-</string>
     <string name="sale">Sale</string>
+    <string name="add_item">Add Item</string>
+    <string name="edit_item">Edit Item</string>
+    <string name="invalid_quantity">Invalid Quantity!</string>
+    <string name="no_more_items_left">No more items left!</string>
 </resources>

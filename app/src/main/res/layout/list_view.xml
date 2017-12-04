@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -27,8 +27,6 @@
             android:id="@+id/product_quantity_text_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginTop="8dp"
             android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#99DAAA"
             tools:text="14" />
@@ -38,7 +36,6 @@
             android:id="@+id/product_price_text_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="#A00B12"
             tools:text="$ 1.00" />
     </LinearLayout>

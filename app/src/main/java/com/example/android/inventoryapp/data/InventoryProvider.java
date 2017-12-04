@@ -48,7 +48,6 @@ public class InventoryProvider extends ContentProvider{
         Cursor cursor;
 
         int match = uriMatcher.match(uri);
-        Log.e("Inventory Provider:", "Update this error:  matched URI is: ******************: " + match);
         switch (match) {
             case INVENTORIES:
                 cursor = db.query(InventoryContract.InventoryEntry.TABLE_NAME,

@@ -13,7 +13,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -53,10 +52,10 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
         //Validate the URI action
         if (currentUri == null) {
-            setTitle("Add Item");
+            setTitle(getString(R.string.add_item));
             invalidateOptionsMenu();
         } else {
-            setTitle("Edit Item");
+            setTitle(getString(R.string.edit_item));
             getLoaderManager().initLoader(EDIT_INVENTORY_LOADER, null, this);
         }
 
@@ -89,11 +88,11 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 String qtyString = String.valueOf(mQuantityEditText.getText());
                 int qty = 0;
                 if(qtyString == null || TextUtils.isEmpty(qtyString))
-                    Toast.makeText(getApplicationContext(), "Invalid Quantity!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.invalid_quantity, Toast.LENGTH_SHORT).show();
                 else
                     qty = Integer.parseInt(qtyString);
                 if (qty < 1)
-                    Toast.makeText(getApplicationContext(), "No more items left!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.no_more_items_left, Toast.LENGTH_SHORT).show();
                     else
                         mQuantityEditText.setText(String.valueOf(qty - 1));
             }
@@ -106,6 +105,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                     saveInventory();
                     mDataChanged = false;
                 }
+                finish();
             }
         });
     }
@@ -251,7 +251,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
     private void deleteAllInventories() {
         int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
-        Log.v("EditInventoryActivity", rowsDeleted + " rows deleted from Inventory database");
     }
 
     @Override

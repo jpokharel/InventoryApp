@@ -53,7 +53,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
         nameText.setText(name);
         priceText.setText(String.valueOf(price));
         quantityText.setText(String.valueOf(quantity));
-        saleButton.setTag(cursor.getPosition());
 
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry._ID));
 
@@ -76,7 +75,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
                             null);
                 }
             }
-            
+
         });
 
     }
