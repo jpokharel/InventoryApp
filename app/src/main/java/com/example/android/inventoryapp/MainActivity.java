@@ -2,6 +2,7 @@ package com.example.android.inventoryapp;
 
 import android.app.LoaderManager;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -63,6 +64,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     protected void onStart() {
         super.onStart();
+    }
+
+    protected void handleSaleButton(long id, int quantity) {
+        if (quantity > 0) {
+            quantity--;
+            Log.e("MainActivity", "Latest quantity after sale is: " + quantity + "for Id: " + id);
+
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY, quantity);
+
+            getContentResolver().update(ContentUris.withAppendedId(
+                    InventoryContract.InventoryEntry.CONTENT_URI, id),
+                    contentValues,
+                    null,
+                    null);
+        }
     }
 
     @Override

@@ -17,6 +17,15 @@ import com.example.android.inventoryapp.data.InventoryContract;
 
 public class InventoryCursorAdapter extends CursorAdapter {
 
+    private TextView nameText;
+    private TextView priceText;
+    private TextView quantityText;
+    private Button saleButton;
+    private String name;
+    private int quantity;
+    private int price;
+    private MainActivity mainActivity;
+
     public InventoryCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
     }
@@ -28,22 +37,33 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, final Context context, Cursor cursor) {
-        TextView nameText = (TextView) view.findViewById(R.id.product_name_text_box);
-        TextView priceText = (TextView) view.findViewById(R.id.product_price_text_box);
-        TextView quantityText = (TextView) view.findViewById(R.id.product_quantity_text_box);
-        Button saleButton = (Button) view.findViewById(R.id.sale_button);
+        nameText = (TextView) view.findViewById(R.id.product_name_text_box);
+        priceText = (TextView) view.findViewById(R.id.product_price_text_box);
+        quantityText = (TextView) view.findViewById(R.id.product_quantity_text_box);
+        saleButton = (Button) view.findViewById(R.id.sale_button);
 
-        String name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
-        int price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
-        int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
+        name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
+        price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
+        quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
 
 
         nameText.setText(name);
         priceText.setText(String.valueOf(price));
         quantityText.setText(String.valueOf(quantity));
-        saleButton.setText(R.string.sale);
+        saleButton.setTag(cursor.getPosition());
+
+        final long id = cursor.getLong(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry._ID));
+
+        mainActivity = new MainActivity();
+
+        saleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.handleSaleButton(id, quantity);
+            }
+        });
 
     }
 
-    
+
 }
