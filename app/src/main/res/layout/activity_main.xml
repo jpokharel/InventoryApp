@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -10,7 +9,9 @@
         android:id="@+id/list_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:divider="@color/colorPrimary" />
+        android:divider="@color/colorPrimary"
+        android:drawSelectorOnTop="true"/>
+
     <RelativeLayout
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
@@ -20,13 +21,14 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/inventory"/>
+            android:src="@drawable/inventory" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="italic"
+            android:text="No Inventory in the list."
             android:textSize="32sp"
-            android:text="No Inventory in the list."/>
+            android:textStyle="italic" />
     </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
@@ -36,5 +38,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="24dp"
-        android:src="@drawable/inventory_fab"/>
-    </RelativeLayout>
+        android:src="@drawable/inventory_fab" />
+</RelativeLayout>

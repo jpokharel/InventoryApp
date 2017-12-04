@@ -24,17 +24,40 @@
 
     <LinearLayout
         android:id="@+id/quantity_layout"
-        style="@style/EditLinearLayoutStyle">
+        style="@style/EditLinearLayoutStyle"
+        >
 
         <TextView
             style="@style/TextViewStyle"
             android:text="@string/quantity" />
 
+        <LinearLayout
+            style="@style/EditTextStyle"
+            android:layout_gravity="center"
+            android:weightSum="1">
+
+        <Button
+            android:id="@+id/decrease_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="@string/minus"
+            android:textStyle="bold"
+            android:layout_gravity="center"/>
+
         <EditText
             android:id="@+id/edit_quantity"
-            style="@style/EditTextStyle"
-            android:hint="@string/quantity"
+            android:layout_height="match_parent"
+            android:layout_width="88dp"
             android:inputType="number" />
+
+            <Button
+                android:id="@+id/increase_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:text="@string/plus"
+                android:gravity="center"
+                android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -57,12 +80,26 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/capture_picture_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="@string/picture"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/save_inventory_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/capture_picture_button"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:text="@string/save"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />

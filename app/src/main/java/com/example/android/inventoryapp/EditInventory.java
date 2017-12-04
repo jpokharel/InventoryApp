@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,8 +31,11 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
     private EditText mNameEditText;
     private EditText mQuantityEditText;
     private EditText mPriceEditText;
+    private Button mIncrementButton;
+    private Button mDecrementButton;
     private boolean mDataChanged = false; //To track if any change was made.
     private Uri currentUri; //To store the item's URI.
+    private static final String PRICE = "$ ";
 
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
@@ -61,11 +65,40 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mNameEditText = (EditText) findViewById(R.id.edit_name);
         mQuantityEditText = (EditText) findViewById(R.id.edit_quantity);
         mPriceEditText = (EditText) findViewById(R.id.edit_price);
+        mIncrementButton = (Button) findViewById(R.id.increase_button);
+        mDecrementButton = (Button) findViewById(R.id.decrease_button);
 
         //Set up touch listeners to inform user about any unsaved changes.
         mNameEditText.setOnTouchListener(mTouchListener);
         mQuantityEditText.setOnTouchListener(mTouchListener);
         mPriceEditText.setOnTouchListener(mTouchListener);
+        mIncrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataChanged = true;
+                String qtyString = String.valueOf(mQuantityEditText.getText());
+                if(qtyString == null || TextUtils.isEmpty(qtyString))
+                    mQuantityEditText.setText("1");
+                else
+                    mQuantityEditText.setText(String.valueOf(Integer.parseInt(qtyString) + 1));
+            }
+        });
+        mDecrementButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mDataChanged = true;
+                String qtyString = String.valueOf(mQuantityEditText.getText());
+                int qty = 0;
+                if(qtyString == null || TextUtils.isEmpty(qtyString))
+                    deleteInventory();
+                else
+                    qty = Integer.parseInt(qtyString);
+                    if(qty == 1)
+                        deleteInventory();
+                    else
+                        mQuantityEditText.setText(String.valueOf(qty - 1));
+            }
+        });
     }
 
     @Override
@@ -196,7 +229,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
-            mPriceEditText.setText(Integer.toString(price));
+            mPriceEditText.setText(PRICE + Integer.toString(price));
         }
     }
 
