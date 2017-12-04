@@ -1,9 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.inventoryapp.EditInventory">
+    android:orientation="vertical"
+    tools:context=".EditInventory">
 
-</android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/name_layout"
+        style="@style/EditLinearLayoutStyle">
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:text="@string/inventory_name" />
+
+        <EditText
+            android:id="@+id/edit_name"
+            style="@style/EditTextStyle"
+            android:hint="@string/inventory_name"
+            android:inputType="textCapWords" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/quantity_layout"
+        style="@style/EditLinearLayoutStyle">
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:text="@string/quantity" />
+
+        <EditText
+            android:id="@+id/edit_quantity"
+            style="@style/EditTextStyle"
+            android:hint="@string/quantity"
+            android:inputType="number" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/price_layout"
+        style="@style/EditLinearLayoutStyle">
+
+        <TextView
+            style="@style/TextViewStyle"
+            android:text="@string/price" />
+
+        <EditText
+            android:id="@+id/edit_price"
+            style="@style/EditTextStyle"
+            android:hint="@string/price"
+            android:inputType="numberDecimal" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center"
+            android:text="@string/picture"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimaryDark"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+</LinearLayout>
