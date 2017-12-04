@@ -1,7 +1,11 @@
 package com.example.android.inventoryapp;
 
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +28,6 @@ public class InventoryCursorAdapter extends CursorAdapter {
     private String name;
     private int quantity;
     private int price;
-    private MainActivity mainActivity;
 
     public InventoryCursorAdapter(Context context, Cursor c) {
         super(context, c, 0);
@@ -54,13 +57,26 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
         final long id = cursor.getLong(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry._ID));
 
-        mainActivity = new MainActivity();
 
+        final ContentResolver contentResolver = view.getContext().getContentResolver();
         saleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mainActivity.handleSaleButton(id, quantity);
+                if (quantity > 0) {
+                    quantity--;
+                    Log.e("MainActivity", "Latest quantity after sale is: " + quantity + "for Id: " + id);
+
+                    ContentValues contentValues = new ContentValues();
+                    contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY, quantity);
+
+                    contentResolver.update(ContentUris.withAppendedId(
+                            InventoryContract.InventoryEntry.CONTENT_URI, id),
+                            contentValues,
+                            null,
+                            null);
+                }
             }
+            
         });
 
     }
