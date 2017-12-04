@@ -5,6 +5,7 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,12 +68,14 @@ public class InventoryCursorAdapter extends CursorAdapter {
 
                     ContentValues contentValues = new ContentValues();
                     contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY, quantity);
+                    Uri uri = ContentUris.withAppendedId(
+                            InventoryContract.InventoryEntry.CONTENT_URI, id);
 
-                    contentResolver.update(ContentUris.withAppendedId(
-                            InventoryContract.InventoryEntry.CONTENT_URI, id),
+                    contentResolver.update(uri,
                             contentValues,
                             null,
                             null);
+                    contentResolver.notifyChange(uri, null);
                 }
             }
 

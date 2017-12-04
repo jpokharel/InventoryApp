@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.inventoryapp.data.InventoryContract;
 
@@ -81,6 +82,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private void deleteAll() {
         int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
+        if (rowsDeleted == 0)
+            Toast.makeText(getApplicationContext(), R.string.deletion_failed, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(getApplicationContext(), R.string.deletion_successful, Toast.LENGTH_SHORT).show();
+
+        //Close the activity
+        finish();
     }
 
     @Override

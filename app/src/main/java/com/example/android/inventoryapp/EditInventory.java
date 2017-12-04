@@ -75,8 +75,8 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             public void onClick(View v) {
                 mDataChanged = true;
                 String qtyString = String.valueOf(mQuantityEditText.getText());
-                if(qtyString == null || TextUtils.isEmpty(qtyString))
-                    mQuantityEditText.setText("1");
+                if (qtyString == null || TextUtils.isEmpty(qtyString))
+                    mQuantityEditText.setText(R.string.one_digit);
                 else
                     mQuantityEditText.setText(String.valueOf(Integer.parseInt(qtyString) + 1));
             }
@@ -87,14 +87,14 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 mDataChanged = true;
                 String qtyString = String.valueOf(mQuantityEditText.getText());
                 int qty = 0;
-                if(qtyString == null || TextUtils.isEmpty(qtyString))
+                if (qtyString == null || TextUtils.isEmpty(qtyString))
                     Toast.makeText(getApplicationContext(), R.string.invalid_quantity, Toast.LENGTH_SHORT).show();
                 else
                     qty = Integer.parseInt(qtyString);
                 if (qty < 1)
                     Toast.makeText(getApplicationContext(), R.string.no_more_items_left, Toast.LENGTH_SHORT).show();
-                    else
-                        mQuantityEditText.setText(String.valueOf(qty - 1));
+                else
+                    mQuantityEditText.setText(String.valueOf(qty - 1));
             }
         });
 
@@ -251,6 +251,10 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
     private void deleteAllInventories() {
         int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
+        if (rowsDeleted > 0)
+            Toast.makeText(this, R.string.deletion_successful, Toast.LENGTH_SHORT).show();
+        else
+            Toast.makeText(this, R.string.deletion_failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
