@@ -27,7 +27,7 @@ import com.example.android.inventoryapp.data.InventoryContract;
 public class EditInventory extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final int EDIT_INVENTORY_LOADER = 0;
-
+    private static final String PRICE = "$ ";
     private EditText mNameEditText;
     private EditText mQuantityEditText;
     private EditText mPriceEditText;
@@ -35,8 +35,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
     private Button mDecrementButton;
     private boolean mDataChanged = false; //To track if any change was made.
     private Uri currentUri; //To store the item's URI.
-    private static final String PRICE = "$ ";
-
     private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
@@ -90,11 +88,11 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 String qtyString = String.valueOf(mQuantityEditText.getText());
                 int qty = 0;
                 if(qtyString == null || TextUtils.isEmpty(qtyString))
-                    deleteInventory();
+                    Toast.makeText(getApplicationContext(), "Invalid Quantity!", Toast.LENGTH_SHORT).show();
                 else
                     qty = Integer.parseInt(qtyString);
-                    if(qty == 1)
-                        deleteInventory();
+                if (qty < 1)
+                    Toast.makeText(getApplicationContext(), "No more items left!", Toast.LENGTH_SHORT).show();
                     else
                         mQuantityEditText.setText(String.valueOf(qty - 1));
             }

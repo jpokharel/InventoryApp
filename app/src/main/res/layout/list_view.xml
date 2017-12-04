@@ -38,12 +38,5 @@
             android:textColor="#A00B12"
             tools:text="$ 1.00" />
     </LinearLayout>
-    <Button
-        android:id="@+id/sale_button"
-        android:layout_width="88dp"
-        android:layout_height="match_parent"
-        android:text="@string/sale"
-        android:textAllCaps="true"
-        android:textStyle="bold" />
 
 </LinearLayout>
