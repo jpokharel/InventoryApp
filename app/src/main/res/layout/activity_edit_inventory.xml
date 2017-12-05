@@ -40,22 +40,22 @@
             android:id="@+id/decrease_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
+            android:layout_gravity="center"
             android:text="@string/minus"
-            android:textStyle="bold"
-            android:layout_gravity="center"/>
+            android:textStyle="bold" />
 
         <EditText
             android:id="@+id/edit_quantity"
-            android:layout_height="match_parent"
             android:layout_width="88dp"
+            android:layout_height="match_parent"
             android:inputType="number" />
 
             <Button
                 android:id="@+id/increase_button"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:text="@string/plus"
                 android:gravity="center"
+                android:text="@string/plus"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -75,15 +75,43 @@
             android:inputType="numberDecimal" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/order_item_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/order_more" />
+
+        <Button
+            android:id="@+id/delete_item_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/delete" />
+    </LinearLayout>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/product_screenshot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="24dp"
+            android:gravity="center" />
 
         <Button
             android:id="@+id/capture_picture_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/product_screenshot"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
             android:gravity="center"
             android:text="@string/picture"
@@ -96,9 +124,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/capture_picture_button"
+            android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
             android:text="@string/save"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimaryDark"

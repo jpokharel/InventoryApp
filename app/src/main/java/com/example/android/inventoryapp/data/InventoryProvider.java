@@ -120,6 +120,12 @@ public class InventoryProvider extends ContentProvider{
                 throw new IllegalArgumentException("Price should be greater than 0!");
         }
 
+        if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE)) {
+            byte[] picture = values.getAsByteArray(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE);
+            if (picture == null)
+                throw new IllegalArgumentException("Picture shouls not be empty!");
+        }
+
         if (values.size() < 1)
             return null;
 
@@ -197,6 +203,12 @@ public class InventoryProvider extends ContentProvider{
             int price = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE);
             if (price <= 0)
                 throw new IllegalArgumentException("Price should be greater than 0!");
+        }
+
+        if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE)) {
+            byte[] picture = values.getAsByteArray(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE);
+            if (picture == null)
+                throw new IllegalArgumentException("Picture should not be empty!");
         }
 
         if (values.size() < 1)

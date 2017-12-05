@@ -25,4 +25,5 @@
     <string name="invalid_quantity">Invalid Quantity!</string>
     <string name="no_more_items_left">No more items left!</string>
     <string name="one_digit">1</string>
+    <string name="order_more">Order More</string>
 </resources>
