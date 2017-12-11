@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
             }
         });
-        getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
+        //getLoaderManager().initLoader(INVENTORY_LOADER, null, this);
     }
 
     @Override

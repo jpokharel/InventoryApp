@@ -11,6 +11,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
+
+import com.example.android.inventoryapp.R;
 
 /**
  * Created by jiwanpokharel89 on 12/2/2017..
@@ -104,35 +107,42 @@ public class InventoryProvider extends ContentProvider{
     }
 
     private Uri insertInventory(Uri uri, ContentValues values) {
+        boolean insertData = true;
+
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME)) {
             String name = values.getAsString(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME);
-            if (name == null || TextUtils.isEmpty(name))
-                throw new IllegalArgumentException("Name cannot be empty or null!");
+            if (name == null || TextUtils.isEmpty(name)) {
+                Toast.makeText(getContext(), R.string.name_cannot_be_empty, Toast.LENGTH_SHORT).show();
+                insertData = false;
+            }
         }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY)) {
             int quantity = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY);
-            if (quantity < 1)
-                throw new IllegalArgumentException("Quantity cannot be less than 1!");
+            if (quantity < 1) {
+                Toast.makeText(getContext(), R.string.quantity_cannot_be_zero, Toast.LENGTH_SHORT).show();
+                insertData = false;
+            }
         }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE)) {
             int price = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE);
-            if (price <= 0)
-                throw new IllegalArgumentException("Price should be greater than 0!");
+            if (price <= 0) {
+                Toast.makeText(getContext(), R.string.price_cannot_be_zero, Toast.LENGTH_SHORT).show();
+                insertData = false;
+            }
         }
 
-        if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE)) {
-            byte[] picture = values.getAsByteArray(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE);
-            if (picture == null)
-                throw new IllegalArgumentException("Picture should not be empty!");
-        }
 
         if (values.size() < 1)
             return null;
 
-        SQLiteDatabase db = inventoryDbHelper.getWritableDatabase();
-        long insertValue = db.insert(InventoryContract.InventoryEntry.TABLE_NAME,
-                null,
-                values);
+        long insertValue = -1;
+        if (insertData) {
+            SQLiteDatabase db = inventoryDbHelper.getWritableDatabase();
+            insertValue = db.insert(InventoryContract.InventoryEntry.TABLE_NAME,
+                    null,
+                    values);
+        }
+
         if (insertValue == -1) {
             Log.e("InsertInventory()", "Failed to insert inventory for URI: " + uri);
             return null;
@@ -188,39 +198,43 @@ public class InventoryProvider extends ContentProvider{
     }
 
     private int updateInventory(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+        boolean updateData = true;
 
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME)) {
             String name = values.getAsString(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME);
-            if (name == null || TextUtils.isEmpty(name))
-                throw new IllegalArgumentException("Name cannot be empty or null!");
+            if (name == null || TextUtils.isEmpty(name)) {
+                Toast.makeText(getContext(), R.string.name_cannot_be_empty, Toast.LENGTH_SHORT).show();
+                updateData = false;
+            }
         }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY)) {
             int quantity = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY);
-            if (quantity < 1)
-                throw new IllegalArgumentException("Quantity cannot be less than 1!");
+            if (quantity < 1) {
+                Toast.makeText(getContext(), R.string.quantity_cannot_be_zero, Toast.LENGTH_SHORT).show();
+                updateData = false;
+            }
         }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE)) {
             int price = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE);
-            if (price <= 0)
-                throw new IllegalArgumentException("Price should be greater than 0!");
-        }
-
-        if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE)) {
-            byte[] picture = values.getAsByteArray(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE);
-            if (picture == null)
-                throw new IllegalArgumentException("Picture should not be empty!");
+            if (price <= 0) {
+                Toast.makeText(getContext(), R.string.price_cannot_be_zero, Toast.LENGTH_SHORT).show();
+                updateData = false;
+            }
         }
 
         if (values.size() < 1)
             return 0;
 
+        int rowsUpdated = 0;
         // Get writable database
-        SQLiteDatabase database = inventoryDbHelper.getWritableDatabase();
-        int rowsUpdated = database.update(InventoryContract.InventoryEntry.TABLE_NAME,
-                values,
-                selection,
-                selectionArgs
-        );
+        if (updateData) {
+            SQLiteDatabase database = inventoryDbHelper.getWritableDatabase();
+            rowsUpdated = database.update(InventoryContract.InventoryEntry.TABLE_NAME,
+                    values,
+                    selection,
+                    selectionArgs
+            );
+        }
         if (rowsUpdated != 0)
             getContext().getContentResolver().notifyChange(uri, null);
         return rowsUpdated;

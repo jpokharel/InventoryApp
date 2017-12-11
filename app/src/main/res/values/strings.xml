@@ -26,4 +26,7 @@
     <string name="no_more_items_left">No more items left!</string>
     <string name="one_digit">1</string>
     <string name="order_more">Order More</string>
+    <string name="name_cannot_be_empty">Name cannot be empty!</string>
+    <string name="quantity_cannot_be_zero">Quantity cannot be less than 1!</string>
+    <string name="price_cannot_be_zero">Price cannot be zero or less!</string>
 </resources>

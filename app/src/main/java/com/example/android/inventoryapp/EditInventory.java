@@ -244,7 +244,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         String name = mNameEditText.getText().toString().trim();
         String qtyString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-//        byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
+        //byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
         int quantity = 0, price = 0;
 
         if (currentUri == null && TextUtils.isEmpty(name) && TextUtils.isEmpty(qtyString)
@@ -312,13 +312,10 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             String name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
             int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
             int price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
-//            byte[] pictureBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE));//ToDO: Can Remove this
-//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);//ToDO: Can Remove this
 
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Integer.toString(price));
-            // mImageView.setImageBitmap(bitmapImage);//ToDO: Can Remove this
         }
     }
 
@@ -327,7 +324,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mNameEditText.setText("");
         mQuantityEditText.setText("");
         mPriceEditText.setText("");
-        // mImageView.setImageBitmap(null); //ToDO: Can Remove this
     }
 
     private void deleteAllInventories() {
@@ -356,6 +352,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         showUnsavedChangesDialog(discardButtonClickListener);
     }
 
+    //Did not use this functionality here.
     public void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.changes_not_saved);
