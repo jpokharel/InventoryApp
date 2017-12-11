@@ -154,7 +154,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             @Override
             public void onClick(View v) {
                 showDeleteConfirmationDialog();
-                finish(); //Need to go to main activity after deleting record.
             }
         });
 
@@ -210,7 +209,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 break;
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
-                finish(); //Need to move to the main activity after deleting record.
                 break;
             case android.R.id.home:
                 if (!mDataChanged) {
@@ -380,6 +378,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteInventory();
+                finish();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
