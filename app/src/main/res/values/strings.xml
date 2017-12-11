@@ -29,4 +29,6 @@
     <string name="name_cannot_be_empty">Name cannot be empty!</string>
     <string name="quantity_cannot_be_zero">Quantity cannot be less than 1!</string>
     <string name="price_cannot_be_zero">Price cannot be zero or less!</string>
+    <string name="fields_not_correctly_update">Some fields are not correctly updated! Please correct them!</string>
+    <string name="insert_correct_data_in_all_fields">Please insert correct data in all fields!</string>
 </resources>

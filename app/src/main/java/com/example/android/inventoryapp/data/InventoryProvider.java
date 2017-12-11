@@ -118,7 +118,7 @@ public class InventoryProvider extends ContentProvider{
         }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY)) {
             int quantity = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY);
-            if (quantity < 1) {
+            if (quantity < 0) {
                 Toast.makeText(getContext(), R.string.quantity_cannot_be_zero, Toast.LENGTH_SHORT).show();
                 insertData = false;
             }
@@ -199,33 +199,33 @@ public class InventoryProvider extends ContentProvider{
 
     private int updateInventory(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         boolean updateData = true;
-
+        int rowsUpdated = 0;
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME)) {
             String name = values.getAsString(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME);
             if (name == null || TextUtils.isEmpty(name)) {
                 Toast.makeText(getContext(), R.string.name_cannot_be_empty, Toast.LENGTH_SHORT).show();
                 updateData = false;
             }
-        }
+            }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY)) {
             int quantity = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY);
-            if (quantity < 1) {
+            if (quantity < 0) {
                 Toast.makeText(getContext(), R.string.quantity_cannot_be_zero, Toast.LENGTH_SHORT).show();
                 updateData = false;
             }
-        }
+            }
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE)) {
             int price = values.getAsInteger(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE);
             if (price <= 0) {
                 Toast.makeText(getContext(), R.string.price_cannot_be_zero, Toast.LENGTH_SHORT).show();
                 updateData = false;
             }
-        }
+            }
 
         if (values.size() < 1)
             return 0;
 
-        int rowsUpdated = 0;
+
         // Get writable database
         if (updateData) {
             SQLiteDatabase database = inventoryDbHelper.getWritableDatabase();
@@ -234,7 +234,10 @@ public class InventoryProvider extends ContentProvider{
                     selection,
                     selectionArgs
             );
+        } else {
+            Toast.makeText(getContext(), R.string.fields_not_correctly_update, Toast.LENGTH_SHORT).show();
         }
+
         if (rowsUpdated != 0)
             getContext().getContentResolver().notifyChange(uri, null);
         return rowsUpdated;

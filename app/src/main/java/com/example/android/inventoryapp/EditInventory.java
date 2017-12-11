@@ -17,6 +17,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -135,11 +136,29 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDataChanged) {
+                String qtyString = String.valueOf(mQuantityEditText.getText());
+                String nameString = mNameEditText.getText().toString();
+                String priceString = String.valueOf(mPriceEditText.getText());
+
+                int qty = -1, price = 0;
+                if (qtyString == null || TextUtils.isEmpty(qtyString))
+                    Toast.makeText(getApplicationContext(), R.string.invalid_quantity, Toast.LENGTH_SHORT).show();
+                else
+                    qty = Integer.parseInt(qtyString);
+
+                if (priceString == null || TextUtils.isEmpty(priceString))
+                    Toast.makeText(getApplicationContext(), R.string.price_cannot_be_zero, Toast.LENGTH_SHORT).show();
+                else
+                    price = Integer.parseInt(priceString);
+
+                if (mDataChanged && qty > -1 && price > 0 && nameString != null && !TextUtils.isEmpty(nameString)) {
                     saveInventory();
                     mDataChanged = false;
+                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(), R.string.insert_correct_data_in_all_fields, Toast.LENGTH_SHORT).show();
                 }
-                finish();
+
             }
         });
 
@@ -244,11 +263,14 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         String name = mNameEditText.getText().toString().trim();
         String qtyString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-        //byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
+        Drawable bitmap = (mImageView.getDrawable());
+        byte[] productScreenshot = new byte[]{};
+        if (bitmap != null)
+            productScreenshot = getImageAsByteArray(bitmap); //TODO:
         int quantity = 0, price = 0;
 
         if (currentUri == null && TextUtils.isEmpty(name) && TextUtils.isEmpty(qtyString)
-                && TextUtils.isEmpty(priceString)/* && productScreenshot == null*/)
+                && TextUtils.isEmpty(priceString) && bitmap == null) //TODO:
             return;
         if (!TextUtils.isEmpty(qtyString))
             quantity = Integer.parseInt(qtyString);
@@ -258,7 +280,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME, name);
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY, quantity);
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE, price);
-        //contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE, productScreenshot);
+        contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE, productScreenshot); //TODO..
 
         if (currentUri == null) {
             Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, contentValues);
@@ -288,6 +310,9 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             Toast.makeText(getApplicationContext(), R.string.deletion_failed, Toast.LENGTH_SHORT).show();
         else
             Toast.makeText(getApplicationContext(), R.string.deletion_successful, Toast.LENGTH_SHORT).show();
+        Log.e("EditJAVA", "Uri for deletion: " + currentUri);
+
+        finish();
 
     }
 
@@ -297,8 +322,8 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 InventoryContract.InventoryEntry._ID,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY,
-                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE/*,
-                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE */
+                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE,
+                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE  //TODO:
         };
 
         return new CursorLoader(getApplicationContext(), currentUri, projection, null, null, null);
@@ -324,14 +349,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mNameEditText.setText("");
         mQuantityEditText.setText("");
         mPriceEditText.setText("");
-    }
-
-    private void deleteAllInventories() {
-        int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
-        if (rowsDeleted > 0)
-            Toast.makeText(this, R.string.deletion_successful, Toast.LENGTH_SHORT).show();
-        else
-            Toast.makeText(this, R.string.deletion_failed, Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -375,7 +392,6 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 deleteInventory();
-                finish();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
