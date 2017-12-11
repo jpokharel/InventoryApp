@@ -123,7 +123,7 @@ public class InventoryProvider extends ContentProvider{
         if (values.containsKey(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE)) {
             byte[] picture = values.getAsByteArray(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE);
             if (picture == null)
-                throw new IllegalArgumentException("Picture shouls not be empty!");
+                throw new IllegalArgumentException("Picture should not be empty!");
         }
 
         if (values.size() < 1)

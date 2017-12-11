@@ -85,10 +85,15 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mOrderButton = (Button) findViewById(R.id.order_item_button);
         mImageView = (ImageView) findViewById(R.id.product_screenshot);
 
+        if (currentUri == null) { //Disabling the buttons in case it is an Add Item Activity.
+            mDeleteButton.setVisibility(View.INVISIBLE);
+            mOrderButton.setVisibility(View.INVISIBLE);
+        }
+
         //Set up touch listeners to inform user about any unsaved changes.
-        //mNameEditText.setOnTouchListener(mTouchListener);
-        // mQuantityEditText.setOnTouchListener(mTouchListener);
-        // mPriceEditText.setOnTouchListener(mTouchListener);
+        mNameEditText.setOnTouchListener(mTouchListener);
+        mQuantityEditText.setOnTouchListener(mTouchListener);
+        mPriceEditText.setOnTouchListener(mTouchListener);
 
         //Set up button click listeners
         mIncrementButton.setOnClickListener(new View.OnClickListener() {
@@ -148,8 +153,8 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteInventory();
                 showDeleteConfirmationDialog();
+                finish(); //Need to go to main activity after deleting record.
             }
         });
 
@@ -157,8 +162,10 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
 
     public void makeAnOrder() {
         Intent intent = new Intent(Intent.ACTION_DIAL);
-        intent.setData(Uri.parse("tel:1234567890"));
-        startActivity(intent);
+        int num = 1234567890;
+        intent.setData(Uri.parse("tel:" + num));
+        if (intent.resolveActivity(getApplicationContext().getPackageManager()) != null)
+            getApplicationContext().startActivity(intent);
     }
 
     @Override
@@ -202,12 +209,8 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 finish();
                 break;
             case R.id.action_delete:
-                deleteInventory();
                 showDeleteConfirmationDialog();
-                break;
-            case R.id.action_delete_all:
-                deleteAllInventories();
-                showDeleteConfirmationDialog();
+                finish(); //Need to move to the main activity after deleting record.
                 break;
             case android.R.id.home:
                 if (!mDataChanged) {
@@ -243,11 +246,11 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         String name = mNameEditText.getText().toString().trim();
         String qtyString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-        //byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
+//        byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
         int quantity = 0, price = 0;
 
         if (currentUri == null && TextUtils.isEmpty(name) && TextUtils.isEmpty(qtyString)
-                && TextUtils.isEmpty(priceString)/* || productScreenshot == null */)
+                && TextUtils.isEmpty(priceString)/* && productScreenshot == null*/)
             return;
         if (!TextUtils.isEmpty(qtyString))
             quantity = Integer.parseInt(qtyString);
@@ -297,7 +300,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE/*,
-                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE*/
+                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE */
         };
 
         return new CursorLoader(getApplicationContext(), currentUri, projection, null, null, null);
@@ -311,13 +314,13 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             String name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
             int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
             int price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
-            //byte[] pictureBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE));
-            //Bitmap bitmapImage = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
+//            byte[] pictureBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE));//ToDO: Can Remove this
+//            Bitmap bitmapImage = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);//ToDO: Can Remove this
 
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Integer.toString(price));
-            //mImageView.setImageBitmap(bitmapImage);
+            // mImageView.setImageBitmap(bitmapImage);//ToDO: Can Remove this
         }
     }
 
@@ -326,7 +329,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mNameEditText.setText("");
         mQuantityEditText.setText("");
         mPriceEditText.setText("");
-        //mImageView.setImageBitmap(null);
+        // mImageView.setImageBitmap(null); //ToDO: Can Remove this
     }
 
     private void deleteAllInventories() {

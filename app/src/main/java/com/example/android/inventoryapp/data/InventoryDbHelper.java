@@ -21,6 +21,8 @@ public class InventoryDbHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        String DROP_TABLE = "DROP TABLE " + InventoryContract.InventoryEntry.TABLE_NAME;
+        ;
         String SQL_CREATE_TABLE = "CREATE TABLE " + InventoryContract.InventoryEntry.TABLE_NAME+" ("
                 + InventoryContract.InventoryEntry._ID +" INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME + " TEXT NOT NULL, "
@@ -28,11 +30,17 @@ public class InventoryDbHelper extends SQLiteOpenHelper{
                 + InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY + " INTEGER NOT NULL, "
                 + InventoryContract.InventoryEntry.COLUMN_INVENTORY_SUPPLIER + " TEXT, "
                 + InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE + "BLOB);";
+//        //sqLiteDatabase.execSQL(DROP_TABLE);
+//        Log.e(LOG_TAG,"Table name is: "+ InventoryContract.InventoryEntry.TABLE_NAME);
         sqLiteDatabase.execSQL(SQL_CREATE_TABLE);
+//        Cursor cursor = sqLiteDatabase.query(InventoryContract.InventoryEntry.TABLE_NAME,null,null,null,null,null,null);
+//        String cols[] = cursor.getColumnNames();
+//        Log.e(LOG_TAG,"Col names: "+cols);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
         //Changes to be done in other versions..
+
     }
 }
