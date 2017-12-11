@@ -21,6 +21,7 @@ import com.example.android.inventoryapp.data.InventoryContract;
  */
 
 public class InventoryCursorAdapter extends CursorAdapter {
+    private final String LOG_TAG = this.getClass().getName();
 
     private TextView nameText;
     private TextView priceText;
@@ -49,6 +50,7 @@ public class InventoryCursorAdapter extends CursorAdapter {
         name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
         price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
         quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
+        Log.e(LOG_TAG, "************* Name: " + name + " ************ Price: " + price + " ******* Quantity: " + quantity);
 
 
         nameText.setText(name);

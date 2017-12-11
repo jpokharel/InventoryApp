@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -87,9 +86,9 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mImageView = (ImageView) findViewById(R.id.product_screenshot);
 
         //Set up touch listeners to inform user about any unsaved changes.
-        mNameEditText.setOnTouchListener(mTouchListener);
-        mQuantityEditText.setOnTouchListener(mTouchListener);
-        mPriceEditText.setOnTouchListener(mTouchListener);
+        //mNameEditText.setOnTouchListener(mTouchListener);
+        // mQuantityEditText.setOnTouchListener(mTouchListener);
+        // mPriceEditText.setOnTouchListener(mTouchListener);
 
         //Set up button click listeners
         mIncrementButton.setOnClickListener(new View.OnClickListener() {
@@ -244,11 +243,11 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         String name = mNameEditText.getText().toString().trim();
         String qtyString = mQuantityEditText.getText().toString().trim();
         String priceString = mPriceEditText.getText().toString().trim();
-        byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
+        //byte[] productScreenshot = getImageAsByteArray(mImageView.getDrawable());
         int quantity = 0, price = 0;
 
-        if (currentUri == null || TextUtils.isEmpty(name) || TextUtils.isEmpty(qtyString)
-                || TextUtils.isEmpty(priceString) || productScreenshot == null)
+        if (currentUri == null && TextUtils.isEmpty(name) && TextUtils.isEmpty(qtyString)
+                && TextUtils.isEmpty(priceString)/* || productScreenshot == null */)
             return;
         if (!TextUtils.isEmpty(qtyString))
             quantity = Integer.parseInt(qtyString);
@@ -258,7 +257,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME, name);
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY, quantity);
         contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE, price);
-        contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE, productScreenshot);
+        //contentValues.put(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE, productScreenshot);
 
         if (currentUri == null) {
             Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, contentValues);
@@ -297,8 +296,8 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
                 InventoryContract.InventoryEntry._ID,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME,
                 InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY,
-                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE,
-                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE
+                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE/*,
+                InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE*/
         };
 
         return new CursorLoader(getApplicationContext(), currentUri, projection, null, null, null);
@@ -312,13 +311,13 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
             String name = cursor.getString(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_NAME));
             int quantity = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_QUANTITY));
             int price = cursor.getInt(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PRICE));
-            byte[] pictureBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE));
-            Bitmap bitmapImage = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
+            //byte[] pictureBytes = cursor.getBlob(cursor.getColumnIndexOrThrow(InventoryContract.InventoryEntry.COLUMN_INVENTORY_PICTURE));
+            //Bitmap bitmapImage = BitmapFactory.decodeByteArray(pictureBytes, 0, pictureBytes.length);
 
             mNameEditText.setText(name);
             mQuantityEditText.setText(Integer.toString(quantity));
             mPriceEditText.setText(Integer.toString(price));
-            mImageView.setImageBitmap(bitmapImage);
+            //mImageView.setImageBitmap(bitmapImage);
         }
     }
 
@@ -327,7 +326,7 @@ public class EditInventory extends AppCompatActivity implements LoaderManager.Lo
         mNameEditText.setText("");
         mQuantityEditText.setText("");
         mPriceEditText.setText("");
-        mImageView.setImageBitmap(null);
+        //mImageView.setImageBitmap(null);
     }
 
     private void deleteAllInventories() {
